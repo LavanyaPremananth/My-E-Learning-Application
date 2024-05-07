@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% load course_extras %}
+{% load bootstrap4 %}
+
+{% block title %}{{ form.instance.prompt|default:"New Question" }} | {{ quiz.course.title }} {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+  <!-- Breadcrumb navigation -->
+  <li><a href="{% url 'detail' pk=quiz.course.pk %}">{{ quiz.course.title }}</a></li>
+  <li><a href="{% url 'quiz' course_pk=quiz.course.pk step_pk=quiz.pk %}">{{ quiz.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="col-md-10 mx-auto">
+  <!-- Extends content from layout.html -->
+  {{ block.super }}
+
+    <!-- Title of the page, displaying the prompt for the question -->
+    <h1>{{ form.instance.prompt|default:"Make a new question"}}</h1>
+
+    <!-- Form for creating/editing a question -->
+    <form class="" action="" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    <!-- Management form for formset -->
+    {{ formset.management_form }}
+
+    <!-- Table to display the fields for each option in the question -->
+    <table class="table table-striped">
+      <thead class="table-header">
+        <tr>
+          <!-- Column headers -->
+          <th scope="col" style="width: 10%">Order</th>
+          <th scope="col">Text</th>
+          <th scope="col" style="width: 10%">Correct?</th>
+          <th scope="col" style="width: 10%">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop through each form in the formset -->
+        {% for form in formset %}
+        <tr>
+          <!-- Display fields for each option -->
+          <td>{{ form.id }}{{ form.order }}</td>
+          <td>{{ form.text }}</td>
+          <td>{{ form.correct }}</td>
+          <td>{{ form.DELETE }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Submit button to save the question -->
+    <input type="submit" class="btn btn-dark" name="" value="Save">
+  </form>
+
+  <!-- Additional functionality for authenticated users -->
+  <!-- {% if user.is_authenticated and form.instance.pk %}
+    <hr>
+    <a href="{% url 'create_answer' question_pk=form.instance.pk %}" class="btn btn-secondary">Answers</a>
+  {% endif %} -->
+</div>
+{% endblock %}
+
+{% block javascript %}
+  <!-- Load static files and scripts -->
+  {% load static %}
+  <!-- Load necessary JavaScript libraries -->
+  {{ form.media.js }}
+  <!-- Load jQuery Formset plugin -->
+  <script src="{% static 'js/vendor/jquery.formset.js' %}"></script>
+  <!-- Initialize jQuery Formset plugin -->
+  <script type="text/javascript">
+    $('.answer_form').formset({
+      addText: 'add anwer', // Text for adding new answer option
+      deleteText: 'remove' // Text for deleting answer option
+    });
+  </script>
+{% endblock %}

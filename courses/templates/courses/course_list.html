@@ -1,0 +1,33 @@
+{% extends "layout.html" %} <!-- Extends the base layout template -->
+
+{% load static %} <!-- Load the static template tag for serving static files -->
+
+{% block static %} <!-- Start a block for static files -->
+    <link rel="stylesheet" href="{% static 'courses/css/courses.css' %}"> <!-- Include custom CSS file -->
+{% endblock %} <!-- End the static block -->
+
+{% block title %} <!-- Start a block for the page title -->
+    Available Courses <!-- Set the page title -->
+{% endblock %} <!-- End the title block -->
+
+{% block content %} <!-- Start a block for the page content -->
+    <div class="row mt-4"> <!-- Start a row for course cards with top margin -->
+        {% for course in courses %} <!-- Loop through each course -->
+            <div class="col-md-4"> <!-- Set column width for course card -->
+                <div class="card mb-4 shadow-sm"> <!-- Create a Bootstrap card with margin and shadow -->
+                    <img src="/static/ds.jpg" class="card-img-top" alt="{{ course.title }}"> <!-- Display course image -->
+                    <div class="card-body"> <!-- Start card body -->
+                        <h5 class="card-title">{{ course.title }}</h5> <!-- Display course title -->
+                        <p class="card-text">{{ course.description|truncatechars:100 }}</p> <!-- Display truncated course description -->
+                        <div class="d-flex justify-content-between align-items-center"> <!-- Create flex container for button and date -->
+                            <div class="btn-group"> <!-- Start button group -->
+                                <a href="{% url 'course_detail' pk=course.pk %}" class="btn btn-sm btn-outline-secondary">View</a> <!-- Button to view course details -->
+                            </div> <!-- End button group -->
+                            <small class="text-muted">Created on: {{ course.created_at|date:"F j, Y" }}</small> <!-- Display creation date -->
+                        </div> <!-- End flex container -->
+                    </div> <!-- End card body -->
+                </div> <!-- End card -->
+            </div> <!-- End column -->
+        {% endfor %} <!-- End course loop -->
+    </div> <!-- End row -->
+{% endblock %} <!-- End content block -->

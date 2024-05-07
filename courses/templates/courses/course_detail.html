@@ -1,0 +1,46 @@
+{% extends "layout.html" %} <!-- Extend the base layout template -->
+
+{% load humanize course_extras %} <!-- Load custom template tags for humanizing numbers and extra course-related tags -->
+
+{% block title %}{{ course.title }}{% endblock %} <!-- Set page title to the course title -->
+
+{% block content %} <!-- Start content block -->
+
+    <article> <!-- Start article section -->
+
+        <h2><strong>{{ course.title }}</strong></h2> <!-- Display course title with strong emphasis -->
+
+        <div class="card-text text-justify"> <!-- Start card-text div for course description, align text justify -->
+            {{ course.description|markdown_to_html }} <!-- Convert description from Markdown to HTML and display -->
+        </div> <!-- End card-text div -->
+
+        <h3 class="bg-dark text-white p-3 mt-5"> <!-- Start styled heading for displaying number of steps -->
+            Below is a list of Modules, Quizes and Tests you will encounter in this course:
+            <!-- Display number of steps in the course using humanized number and list all step titles -->
+        </h3> <!-- End styled heading -->
+
+        <section> <!-- Start section for displaying steps -->
+
+            {% for step in steps %} <!-- Loop through each step in the course -->
+
+            <div class="card-header"> <!-- Start card header for step title -->
+                <h3><a class="text-success" href="{{ step.get_absolute_url }}">{{ step.title }}</a></h3> <!-- Display step title with link to its detail page -->
+            </div> <!-- End card header -->
+
+            <p class="card-body">{{ step.description }}</p> <!-- Display step description -->
+            <hr> <!-- Horizontal line as separator between steps -->
+
+            {% endfor %} <!-- End step loop -->
+
+        </section> <!-- End section for displaying steps -->
+
+    </article> <!-- End article section -->
+
+    {% if user.is_authenticated %} <!-- Check if user is authenticated -->
+    <hr>
+    <div class="text-center"> <!-- Centerize the button -->
+        <a href="{% url 'create_quiz' course_pk=course.id %}" class="btn btn-primary">Create New Quiz</a> <!-- Button to create a new quiz for the course -->
+    </div> <!-- End text-center div -->
+    {% endif %} <!-- End if statement -->
+
+{% endblock %} <!-- End content block -->

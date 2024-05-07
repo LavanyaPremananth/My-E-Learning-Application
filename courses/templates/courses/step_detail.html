@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% load course_extras %}
+
+{% block title %}{{ step.title }} - {{ step.course.title }}{% endblock %}
+<!-- Set the title of the page to include the step title and course title -->
+
+{% block content %}
+    <article>
+    <!-- Start of the article section -->
+        <h2><a href="{% url 'course_detail' pk=step.course.pk %}">{{ step.course.title }}</a></h2>
+        <!-- Display a link to the course detail page with the course title -->
+        <h3>{{ step.title }}</h3>
+        <!-- Display the title of the step -->
+        {% with con=step.content %}
+            <!-- Store the content of the step in a variable named 'con' -->
+            {{ con|linebreaks }} Content: {{ con|wordcount }} words. Estimated time to complete: {{ con|wordcount|time_estimate }} minute{{ con|wordcount|time_estimate|pluralize }}.
+            <!-- Display the content of the step with line breaks and word count, and estimated time to complete -->
+        {% endwith %}
+    </article>
+    <!-- End of the article section -->
+{% endblock %}

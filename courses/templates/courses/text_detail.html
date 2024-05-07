@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% load course_extras %}
+
+{% block title %}{{ step.title }} | {{ step.course.title }}{{ block.super }}{% endblock %}
+<!-- Define the title for the current page by combining the step title and course title -->
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'courses:detail' pk=step.course.pk %}">{{ step.course.title }}</a></li>
+<!-- Create breadcrumbs with a link to the course detail page -->
+{% endblock %}
+
+{% block content %}
+  <div class="row columns">
+  <!-- Start of the main content section with a row and columns layout -->
+    <article>
+    <!-- Start of the article section -->
+        {{ block.super }}
+        <!-- Render content from the parent block -->
+        <h1>{{step.title}}</h1>
+        <!-- Display the title of the step -->
+        Quiz questions here
+        <!-- Placeholder for displaying quiz questions -->
+    </article>
+    <!-- End of the article section -->
+  </div>
+  <!-- End of the row columns layout -->
+{% endblock %}

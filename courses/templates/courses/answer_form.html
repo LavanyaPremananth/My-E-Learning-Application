@@ -1,0 +1,31 @@
+{% extends "layout.html" %} <!-- Extend the base layout template -->
+
+{% load course_extras %} <!-- Load custom template tags -->
+{% load bootstrap4 %} <!-- Load Bootstrap4 tags -->
+
+{% block title %} <!-- Set the page title -->
+    {{ question|default:"New Answer" }} | {{ question.quiz.course.title }} <!-- Display question title and course title -->
+    {{ block.super }} <!-- Include any additional content from the parent block -->
+{% endblock %}
+
+{% block breadcrumbs %} <!-- Define breadcrumb navigation -->
+    <li><a href="{% url 'courses:detail' pk=question.quiz.course.pk %}">{{ question.quiz.course.title }}</a></li> <!-- Link to course detail page -->
+    <li><a href="{% url 'courses:quiz' course_pk=question.quiz.course.pk step_pk=question.quiz.pk %}">{{ question.quiz.title }}</a></li> <!-- Link to quiz page -->
+    <li>{{ question.prompt }}</li> <!-- Display question prompt -->
+{% endblock %}
+
+{% block content %} <!-- Define content block -->
+    <div class="columns"> <!-- Start columns -->
+        {{ block.super }} <!-- Include any additional content from the parent block -->
+    </div> <!-- End columns -->
+    <div class="columns"> <!-- Start additional columns -->
+        <h1>Answers</h1> <!-- Display heading for answers -->
+        <form class="" action="" method="post"> <!-- Start form for submitting answers -->
+            {% csrf_token %} <!-- Include CSRF token -->
+            <section> <!-- Start section for answers -->
+                {% bootstrap_formset formset %} <!-- Render formset using Bootstrap4 -->
+            </section> <!-- End section for answers -->
+            <input type="submit" class="btn btn-dark" name="" value="Save"> <!-- Submit button -->
+        </form> <!-- End form -->
+    </div> <!-- End additional columns -->
+{% endblock %} <!-- End content block -->

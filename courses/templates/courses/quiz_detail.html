@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% load course_extras %}
+
+{% block title %}{{ step.title }} | {{ step.course.title }}{{ block.super }}{% endblock %}
+<!-- Set the title of the page to include the title of the step and the course title -->
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'courses:detail' pk=step.course.pk %}">{{ step.course.title }}</a></li>
+{% endblock %}
+<!-- Define breadcrumbs with a link to the course detail page -->
+
+{% block content %}
+  <div class="columns container">
+    <!-- Start of the content section -->
+    {{ block.super }}
+    <!-- Include content from the parent block -->
+    <article>
+      <!-- Start of the article section -->
+      <h1 class="mb-4 text-info">{{step.title}}</h1>
+      <!-- Display the title of the step -->
+      <ul class="no-bullet">
+        <!-- Start of the list of questions -->
+        {% for question in step.question_set.all %}
+          <!-- Loop through each question in the step -->
+          <li class="col bg-white">
+            <!-- Start of each question list item -->
+            <h2 class="mb-4 text-danger">{{ question.prompt }}</h2>
+            <!-- Display the prompt of the question -->
+            {% for answer in question.answer_set.all %}
+              <!-- Loop through each answer in the question -->
+              <div class="callout border border-muted p-2">
+                <!-- Display the text of the answer -->
+                {{ answer.text }}
+              </div>
+              <br>
+            {% endfor %}
+            {% if user.is_authenticated %}
+              <!-- Check if the user is authenticated -->
+              <a href="{% url 'edit_question' question_pk=question.pk quiz_pk=step.pk %}" class="btn btn-primary mb-2">Edit</a>
+              <!-- Display a button to edit the question -->
+              <hr>
+              <!-- Horizontal line separator -->
+            {% endif %}
+          </li>
+          <!-- End of each question list item -->
+        {% endfor %}
+        <!-- End of the loop through questions -->
+      </ul>
+      <!-- End of the list of questions -->
+    </article>
+    <!-- End of the article section -->
+
+    {% if user.is_authenticated %}
+      <!-- Check if the user is authenticated -->
+      <div class="container">
+        <!-- Start of the container for authenticated users -->
+        <hr>
+        <!-- Horizontal line separator -->
+        <a href="{% url 'edit_quiz' course_pk=step.course.pk quiz_pk=step.pk %}" class="btn btn-success">Edit</a>
+        <!-- Display a button to edit the quiz -->
+        <a href="{% url 'create_question' quiz_pk=step.pk question_type='mc' %}" class="btn btn-secondary">New Multiple Choice Question</a>
+        <!-- Display a button to create a new multiple choice question -->
+        <a href="{% url 'create_question' quiz_pk=step.pk question_type='tf' %}" class="btn btn-dark">New True/False Question</a>
+        <!-- Display a button to create a new true/false question -->
+      </div>
+      <!-- End of the container for authenticated users -->
+    {% endif %}
+
+  </div>
+  <!-- End of the content section -->
+{% endblock %}

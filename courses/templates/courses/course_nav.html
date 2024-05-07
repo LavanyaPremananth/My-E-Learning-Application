@@ -1,0 +1,17 @@
+<!-- Link to Bootstrap CSS stylesheet -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- Container div with margin bottom and row class -->
+<div class="container mb-1 row">
+
+    <!-- Loop through each course in the courses list -->
+    {% for course in courses %}
+
+        <!-- Div containing a link to the course detail page with a Bootstrap button style -->
+        <div><a class="btn btn-sm" href="{% url 'course_detail' pk=course.pk %}">{{ course.title }}</a></div>
+
+    <!-- End of loop -->
+    {% endfor %}
+
+<!-- End of container div -->
+</div>

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% load bootstrap4 %}
+
+{% block title %}{{ form.instance.title|default:"New Quiz"}} | {{ course.title }}{{ block.super }}{% endblock %}
+<!-- Set the title of the page to include the title of the quiz and the course title -->
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'courses:detail' pk=course.pk %}">{{ course.title }}</a></li>
+{% endblock %}
+<!-- Define breadcrumbs with a link to the course detail page -->
+
+{% block content %}
+  <div class="columns">
+  <!-- Start of the content section -->
+    {{ block.super }}
+    <!-- Include content from the parent block -->
+    <h1>{{ form.instance.title|default:"Make a new quiz"}}</h1>
+    <!-- Display the title of the quiz or default to "Make a new quiz" if not provided -->
+    <form class="" action="" method="post">
+      <!-- Start of the form section -->
+      {% csrf_token %}
+      <!-- CSRF token for form security -->
+      {% bootstrap_form form %}
+      <!-- Display the form fields using Bootstrap styling -->
+      <input type="submit" class="btn btn=dark" name="" value="Save">
+      <!-- Submit button to save the form -->
+    </form>
+    <!-- End of the form section -->
+  </div>
+  <!-- End of the content section -->
+{% endblock %}
