@@ -1,0 +1,26 @@
+{% extends "layout.html" %}   <!-- Extends base layout template -->
+
+{% load bootstrap4 %}   <!-- Loads Bootstrap 4 template tags -->
+
+{% block title %}Registration{% endblock %}   <!-- Defines title for the page -->
+
+{% block content %}   <!-- Defines content block -->
+<div class="container mt-5"> <!-- Container for registration form -->
+    <div class="row justify-content-center">
+        <div class="col-md-10"> <!-- Adjusted column width to fit the header -->
+            <div class="card">
+                <div class="card-header bg-dark text-light text-center">
+                    <h3 class="m-0">Registration</h3>   <!-- Registration header -->
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="mb-3">   <!-- Registration form -->
+                        {% csrf_token %}   <!-- CSRF token for form security -->
+                        {% bootstrap_form form %}   <!-- Renders form fields using Bootstrap styling -->
+                        <button type="submit" class="btn btn-dark btn-block mb-2">Register</button>   <!-- Submit button -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>     
+{% endblock content %}   <!-- End of content block -->

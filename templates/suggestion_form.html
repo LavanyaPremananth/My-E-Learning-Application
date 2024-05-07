@@ -1,0 +1,18 @@
+{% extends "layout.html" %}  <!-- Extending from the base template named "layout.html" -->
+
+{% load bootstrap4 %}  <!-- Loading Bootstrap 4 template tags for use in this template -->
+
+{% block title %}Suggest an idea!{% endblock %}  <!-- Setting the title of this page to "Suggest an idea!" -->
+
+{% block content %}  <!-- Beginning of the content block -->
+<div class="row">  <!-- Row for containing the form -->
+    <div class="col-12">  <!-- Column for the form with full width on all screen sizes -->
+        <form action="" method="POST">  <!-- Form for submitting the suggestion -->
+            {% csrf_token %}  <!-- CSRF token for form security -->
+            {% bootstrap_form form %}  <!-- Rendering the form using Bootstrap styling -->
+
+            <input type="submit" class="btn btn-primary mb-4">  <!-- Submit button -->
+        </form>
+    </div>
+</div>
+{% endblock %}  <!-- End of the content block -->

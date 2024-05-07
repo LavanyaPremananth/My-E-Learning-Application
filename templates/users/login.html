@@ -1,0 +1,44 @@
+{% extends "layout.html" %}   <!-- Extends base layout template -->
+
+{% load bootstrap4 %}   <!-- Loads Bootstrap 4 template tags -->
+
+{% block title %}Login{% endblock %}   <!-- Defines title for the page -->
+
+{% block content %}   <!-- Defines content block -->
+<div class="container mt-5"> <!-- Container for login form -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-dark text-light text-center">
+                    <h3 class="m-0">Sign In</h3>   <!-- Sign In header -->
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="mb-3">   <!-- Login form -->
+                        {% csrf_token %}   <!-- CSRF token for form security -->
+                        {% bootstrap_form form %}   <!-- Renders form fields using Bootstrap styling -->
+                        
+                        <!-- Remember Me Checkbox -->
+                        <div class="form-group form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Remember Me
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-dark btn-block">Login</button>   <!-- Submit button -->
+                    </form>
+                    
+                    <!-- Success Message -->
+                    {% if messages %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        {% for message in messages %}
+                        {{ message }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}   <!-- End of content block -->

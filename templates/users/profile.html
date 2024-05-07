@@ -1,0 +1,42 @@
+{% extends "layout.html" %}  <!-- Extending from the base template named "layout.html" -->
+
+{% load bootstrap4 %}  <!-- Loading Bootstrap 4 template tags for use in this template -->
+
+{% block title %}Profile{% endblock %}  <!-- Setting the title of this page to "Profile" -->
+
+{% block content %}  <!-- Beginning of the content block -->
+<div class="container mt-5">  <!-- Container for content with top margin -->
+    <div class="row justify-content-center">  <!-- Row for centering content horizontally -->
+        <div class="col-md-10"> <!-- Adjusted column width to fit the header -->
+            <div class="card">  <!-- Bootstrap card component for styling -->
+                <div class="card-header bg-dark text-light text-center">  <!-- Header for the card -->
+                    <h3 class="m-0">Profile Information</h3> <!-- Heading for the profile information -->
+                </div>
+                <div class="card-body">  <!-- Body of the card -->
+                    <div class="row justify-content-center mb-4">  <!-- Row for centering profile picture -->
+                        <div class="col-md-4 text-center">  <!-- Column for profile picture -->
+                            <img class="rounded-circle account-img img-fluid" src="/static/user-profile.png" width="150" height="150" alt="Profile Picture">
+                        </div>
+                        <div class="col-md-8">  <!-- Column for user details -->
+                            <h3 class="card-subtitle mb-2 text-muted">{{ user.username }}</h3>  <!-- User's username -->
+                            <p class="card-text">{{ user.email }}</p>  <!-- User's email address -->
+                        </div>
+                    </div>
+                    <hr>  <!-- Horizontal line for separation -->
+                    <form method="POST" enctype="multipart/form-data">  <!-- Form for updating profile information -->
+                        {% csrf_token %}  <!-- CSRF token for form security -->
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Edit Profile</legend>  <!-- Title for the form section -->
+                            {% bootstrap_form u_form %}  <!-- Render the user form using Bootstrap styling -->
+                            {% bootstrap_form p_form %}  <!-- Render the profile form using Bootstrap styling -->
+                        </fieldset>
+                        <div class="form-group text-center">
+                            <button class="btn btn-info" type="submit">Update Profile</button>  <!-- Update button -->
+                        </div>
+                    </form>
+                </div> <!-- End of card body -->
+            </div> <!-- End of card -->
+        </div> <!-- End of column -->
+    </div> <!-- End of row -->
+</div> <!-- End of container -->
+{% endblock %} <!-- End of the content block -->

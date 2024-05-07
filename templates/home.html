@@ -1,0 +1,86 @@
+{% extends "layout.html" %}   <!-- Extends base layout template -->
+
+{% block title %}Home{% endblock %}   <!-- Defines the title for the page -->
+
+{% block content %}   <!-- Defines the content block -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Welcome to Your Dashboard!</h1>
+            <p>Here you can access your courses, view upcoming deadlines, and interact with other users.</p>
+            <hr>
+
+            <!-- Display user information -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>User Information</h5>
+                </div>
+                <div class="card-body">
+                    <img src="/static/user-profile.png" class="rounded-circle" alt="User Avatar" width="100">
+                    <h5>{{ user.username }}</h5>
+                    <p>{{ user.email }}</p>
+                    <!-- Add more user details as per your model -->
+                </div>
+            </div>
+
+            <!-- Display enrolled courses -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Enrolled Courses</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for course in user.enrolled_courses.all %}
+                            <li>{{ course.title }}</li>
+                            <!-- Add more course details as per your model -->
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Display status updates -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Status Updates</h5>
+                </div>
+                <div class="card-body">
+                    {% for update in user.status_updates.all %}
+                        <div class="media">
+                            <img src="/static/user-profile.png" class="mr-3 rounded-circle" alt="User Avatar" width="64">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ update.author.username }}</h5>
+                                <p>{{ update.content }}</p>
+                                <small class="text-muted">{{ update.created_at }}</small>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar for additional functionalities -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Upcoming Deadlines</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Display upcoming deadlines for the user -->
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Feedback Submissions</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Form for leaving feedback for a course -->
+                </div>
+            </div>
+
+            <!-- Add more sidebar functionalities as per requirements -->
+        </div>
+    </div>
+</div>
+{% endblock %}

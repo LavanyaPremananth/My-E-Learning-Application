@@ -1,0 +1,11 @@
+asgiref
+beautifulsoup4
+Django
+django-bootstrap4
+django-crispy-forms
+Markdown
+Pillow
+pytz
+soupsieve
+sqlparse
+channels
