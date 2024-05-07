@@ -1,0 +1,22 @@
+/* Style for the unordered list */
+ul {
+  list-style-type: none; /* Removes default bullet points */
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
+  overflow: hidden; /* Clears floats within the list */
+  background-color: #333; /* Sets background color */
+}
+
+/* Style for list items */
+li {
+  float: left; /* Floats list items to the left */
+}
+
+/* Style for anchor links within list items */
+li a {
+  display: inline-block; /* Displays links as inline-block elements */
+  color: white; /* Sets text color to white */
+  text-align: center; /* Centers text horizontally */
+  padding: 14px 16px; /* Adds padding around the links */
+  text-decoration: none; /* Removes underline from links */
+}

@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block title %}Chat room{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero">
+        <div class="hero-body">
+            <div class="chat-header">
+                <h1 class="title has-text-primary">Welcome to the Chat Room!</h1>
+                <p class="subtitle has-text-grey">Connect with others and start chatting.</p>
+            </div>
+            <div class="chat-container mybox mx-auto">
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="input-field">
+                    <input class="input is-rounded" id="chat-message-input" type="text" placeholder="Type your message">
+                    <button class="button is-primary" id="chat-message-submit">Send</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    // WebSocket connection setup
+    var url = 'ws://' + window.location.host + '/ws/chat/room/{{ course.id }}/';
+    var chatSocket = new WebSocket(url);
+
+    // Function to handle incoming messages
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var message = data.message;
+        var sender = data.user;
+        var timestamp = new Date(data.datetime).toLocaleTimeString();
+
+        var messageDiv = $('<div class="chat-message"></div>');
+        messageDiv.append('<span class="message-sender">' + sender + '</span>: ');
+        messageDiv.append('<span class="message-text">' + message + '</span>');
+        messageDiv.append('<span class="message-timestamp">' + timestamp + '</span>');
+
+        $('#chat-messages').append(messageDiv);
+
+        // Scroll to bottom of chat messages
+        var chatMessages = document.getElementById('chat-messages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    // Function to handle WebSocket closure
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    // Capture input field and submit button elements
+    var $input = $('#chat-message-input');
+    var $submit = $('#chat-message-submit');
+
+    // Function to send messages on button click
+    $submit.click(function() {
+        sendMessage();
+    });
+
+    // Function to send messages on pressing Enter key
+    $input.keyup(function(e) {
+        if (e.which === 13) {
+            sendMessage();
+        }
+    });
+
+    // Function to send message
+    function sendMessage() {
+        var message = $input.val();
+        if (message) {
+            // Send message in JSON format
+            chatSocket.send(JSON.stringify({'message': message}));
+            // Clear input field
+            $input.val('');
+            // Return focus to input field
+            $input.focus();
+        }
+    }
+</script>
+
+<style>
+    .chat-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .chat-messages {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 8px;
+    }
+
+    .chat-message {
+        margin-bottom: 10px;
+    }
+
+    .message-sender {
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .message-text {
+        margin-left: 5px;
+    }
+
+    .message-timestamp {
+        font-size: 0.8em;
+        color: #666666;
+        margin-left: 10px;
+    }
+
+    .input-field {
+        display: flex;
+    }
+
+    .input-field input {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    .chat-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .has-text-primary {
+        color: #1976D2;
+    }
+
+    .has-text-grey {
+        color: #757575;
+    }
+</style>
+{% endblock %}
