@@ -1,4 +1,4 @@
-# My E-Learning-Website
+# My-E-Learning-Website
 
 **Description:**
 The Educational Resource Management System is a web application built using Django, Django REST Framework, and WebSocket technology. It provides a platform for managing educational resources such as courses, texts, quizzes, and questions, facilitating collaboration between teachers and students.
